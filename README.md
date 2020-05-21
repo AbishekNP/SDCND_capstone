@@ -27,22 +27,32 @@ The eventual purpose of this node is to publish a fixed number of waypoints ahea
 
 The goal for the first version of the node should be simply to subscribe to the topics
 
-    /base_waypoints
-    /current_pose
+This package contains the waypoint updater node: waypoint_updater.py. The purpose of this node is to update the target velocity property of each waypoint based on traffic light and obstacle detection data. This node will subscribe to the /base_waypoints, /current_pose, /obstacle_waypoint, and /traffic_waypoint topics, and publish a list of waypoints ahead of the car with target velocities to the /final_waypoints topic
 
-and publish a list of waypoints to
+### DBW node :
 
-    /final_waypoints
+![alt_text](https://github.com/AbishekNP/SDCND_capstone/blob/master/imgs/dbw-node.png)
 
-The /base_waypoints topic publishes a list of all waypoints for the track, so this list includes waypoints both before and after the vehicle (note that the publisher for /base_waypoints publishes only once). For this step in the project, the list published to /final_waypoints should include just a fixed number of waypoints currently ahead of the vehicle:
+The Drive by-Wire-node is has control over the throttle, steering, brakes through an electronic control system.
+This package contains the files that are responsible for control of the vehicle: the node dbw_node.py and the file twist_controller.py, along with a pid and lowpass filter that you can use in your implementation. The dbw_node subscribes to the /current_velocity topic along with the /twist_cmd topic to receive target linear and angular velocities. Additionally, this node will subscribe to /vehicle/dbw_enabled, which indicates if the car is under dbw or driver control. This node will publish throttle, brake, and steering commands to the /vehicle/throttle_cmd, /vehicle/brake_cmd, and /vehicle/steering_cmd topics.
 
-The first waypoint in the list published to /final_waypoints should be the first waypoint that is currently ahead of the car.
-The total number of waypoints ahead of the vehicle that should be included in the /final_waypoints list is provided by the LOOKAHEAD_WPS   variable in waypoint_updater.py.
+### Traffic Light Detection node:
 
+![alt_text](https://github.com/AbishekNP/SDCND_capstone/blob/master/imgs/tl-detector.png)
 
+This node is responsible for taking in the camera input and determining the color of the traffic light when the car approaches one. 
+This node takes in data from the /image_color, /current_pose, and /base_waypoints topics and publishes the locations to stop for red traffic lights to the /traffic_waypoint topic.
 
+The /current_pose topic provides the vehicle's current position, and /base_waypoints provides a complete list of waypoints the car will be following. 
 
+For the purpose of building the traffic light classifier, two approaches could be followed:
+1) Deep Learning - Using a custom or pretrained neural network and train it further on the set traffic light images obtained from the           simulator.
 
+2) Image Processing - This involves using traditional image processing techniques like thresholding etc...
+
+I've used the second approach because it felt sufficient to be executed on the simulator. I've used opencv to use a threshold range to differentiate between the red, green and yellow lights.
+
+But in case you wanted to run your code on a real car, the deep learning technique is a must because real world tend to give lot of noisy images due to factors like light intensity, occlusion etc...
 
 
 This is the project repo for the final project of the Udacity Self-Driving Car Nanodegree: Programming a Real Self-Driving Car. For more information about the project, see the project introduction [here](https://classroom.udacity.com/nanodegrees/nd013/parts/6047fe34-d93c-4f50-8336-b70ef10cb4b2/modules/e1a23b06-329a-4684-a717-ad476f0d8dff/lessons/462c933d-9f24-42d3-8bdc-a08a5fc866e4/concepts/5ab4b122-83e6-436d-850f-9f4d26627fd9).
