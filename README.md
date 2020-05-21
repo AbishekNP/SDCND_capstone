@@ -5,6 +5,9 @@
 ![alt_text](https://github.com/AbishekNP/SDCND_capstone/blob/master/imgs/car.jpg)
 
 
+### Project Description:
+This project can be done as a group or as an individual. Doing it as group has the advantage of getting your code tested on an actual self driving car.
+
 ### Project Goal:
 The main goal in this project is to make Udacity's self driving car, Carla drive around it's track autonomously by following a predefined set of waypoints. ROS(Robotic Operating System) acts as the heart of the system integration project.
 
@@ -13,6 +16,29 @@ Multiple nodes for various tasks like : Waypoint following, Traffic light detect
 # System Architecture Diagram:
 
 ![alt_text](https://github.com/AbishekNP/SDCND_capstone/blob/master/imgs/ros-architecture.png)
+
+## ROS Nodes:
+
+### Waypoint Updater node:
+
+![alt_text](https://github.com/AbishekNP/SDCND_capstone/blob/master/imgs/waypoint-updater.png)
+
+The eventual purpose of this node is to publish a fixed number of waypoints ahead of the vehicle with the correct target velocities, depending on traffic lights and obstacles. I've tried with values like 200, 100, 50 and decided to go with 100 waypoints because 200 waypoints seemed to produce latency issues and 50 waypoints seemed to be a bit slow.
+
+The goal for the first version of the node should be simply to subscribe to the topics
+
+    /base_waypoints
+    /current_pose
+
+and publish a list of waypoints to
+
+    /final_waypoints
+
+The /base_waypoints topic publishes a list of all waypoints for the track, so this list includes waypoints both before and after the vehicle (note that the publisher for /base_waypoints publishes only once). For this step in the project, the list published to /final_waypoints should include just a fixed number of waypoints currently ahead of the vehicle:
+
+The first waypoint in the list published to /final_waypoints should be the first waypoint that is currently ahead of the car.
+The total number of waypoints ahead of the vehicle that should be included in the /final_waypoints list is provided by the LOOKAHEAD_WPS   variable in waypoint_updater.py.
+
 
 
 
