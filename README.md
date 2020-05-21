@@ -11,7 +11,7 @@ This project can be done as a group or as an individual. Doing it as group has t
 ### Project Goal:
 The main goal in this project is to make Udacity's self driving car, Carla drive around it's track autonomously by following a predefined set of waypoints. ROS(Robotic Operating System) acts as the heart of the system integration project.
 
-Multiple nodes for various tasks like : Waypoint following, Traffic light detection, Controls etc...
+Multiple ROS nodes for various tasks like : Waypoint following, Traffic light detection, Controls etc... are used.
 
 # System Architecture Diagram:
 
